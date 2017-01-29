@@ -1,3 +1,3 @@
 # tensorflow-music
 
-Machine learning components forked from IISourceII and TensorFlow Magenta
+Machine learning components forked from llSourcell and TensorFlow Magenta
