@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>Symphonica | Machine generated music</title>
+
+  <link href="{{ url_for('static', filename='style.css')}}" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Raleway:800' rel='stylesheet' type='text/css'>
+  <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css"/>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type='text/javascript' src='//www.midijs.net/lib/midi.js'></script>
+  <script src="{{ url_for('static', filename='script.js')}}"></script>
+</head>
+
+<body>
+  <div class="section">
+    <div class="header fade-element">Symphonica</div>
+    <div class="description-container fade-element">
+      <div class="description fade-element">Using machine learning with Tensorflow, Symphonica generates <br>
+                               music, something that is thought to be inextricably human.</div>
+
+      <div class="description fade-element">We fed our learning algorithm over a thousand pieces <br>
+                               of classical music, that's over 500 hours, to train it.</div>
+
+      <div class="description fade-element">This is the sound of the machine.</div>
+
+      <form class="fm">
+        <audio id="music" src="{{ url_for('static', filename='fullylearned.mp3')}}"></audio>
+        <input class="button fade-element audio" type="button" name="button" value="LISTEN">
+      </form>
+
+      <div class="more fade-element"><a class="scroll-down" href="#section2">Past Iterations <br> &darr;</a></div>
+    </div>
+
+    <div class="fade-element">
+    <div id="section2" class="past-iterations-header">Past Iterations</div>
+
+    <div class="description-container">
+      <audio id="gen10" src="{{ url_for('static', filename='gen10.mp3')}}"></audio>
+      <audio id="gen9" src="{{ url_for('static', filename='gen9.mp3')}}"></audio>
+      <audio id="gen8" src="{{ url_for('static', filename='gen8.mp3')}}"></audio>
+      <audio id="gen7" src="{{ url_for('static', filename='gen7.mp3')}}"></audio>
+      <audio id="gen6" src="{{ url_for('static', filename='gen6.mp3')}}"></audio>
+      <audio id="gen5" src="{{ url_for('static', filename='gen5.mp3')}}"></audio>
+      <audio id="gen4" src="{{ url_for('static', filename='gen4.mp3')}}"></audio>
+      <audio id="gen3" src="{{ url_for('static', filename='gen3.mp3')}}"></audio>
+      <audio id="gen2" src="{{ url_for('static', filename='gen2.mp3')}}"></audio>
+      <audio id="gen1" src="{{ url_for('static', filename='gen1.mp3')}}"></audio>
+      <audio id="gen0" src="{{ url_for('static', filename='gen0.mp3')}}"></audio>
+
+      <input class="button10 fade-element audio" type="button" name="button0" value="Generation 10">
+      <br>
+      <input class="button9 fade-element audio" type="button" name="button1" value="Generation 9">
+      <br>
+      <input class="button8 fade-element audio" type="button" name="button2" value="Generation 8">
+      <br>
+      <input class="button7 fade-element audio" type="button" name="button3" value="Generation 7">
+      <br>
+      <input class="button6 fade-element audio" type="button" name="button4" value="Generation 6">
+      <br>
+      <input class="button5 fade-element audio" type="button" name="button5" value="Generation 5">
+      <br>
+      <input class="button4 fade-element audio" type="button" name="button6" value="Generation 4">
+      <br>
+      <input class="button3 fade-element audio" type="button" name="button7" value="Generation 3">
+      <br>
+      <input class="button2 fade-element audio" type="button" name="button8" value="Generation 2">
+      <br>
+      <input class="button1 fade-element audio" type="button" name="button9" value="Generation 1">
+      <br>
+      <input class="button0 fade-element audio" type="button" name="button10" value="Generation 0">
+
+      <div class="more-up scroll-up"><a href="#">Go Back <br> &uarr;</a></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="background" id="background">
+    <script src="{{ url_for('static', filename='particle-background.js')}}"></script>
+  </div>
+
+</body>
+</html>

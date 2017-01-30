@@ -1,0 +1,167 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.section {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 99;
+}
+
+.header {
+  font-family: Raleway;
+  font-weight: bold;
+  font-size: 60pt;
+  color: #fff;
+  top: 15%;
+  width: 100%;
+  text-align: center;
+  z-index: 99;
+  padding-top: 12%;
+  padding-bottom: 30px;
+}
+
+.description-container {
+  top: 35%;
+  width: 100%;
+  text-align: center;
+  z-index: 99;
+}
+
+.description {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 18pt;
+  color: #fff;
+  padding-bottom: 30px;
+}
+
+.more {
+  margin-bottom: 100px;
+}
+
+.more a {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 12pt;
+  color: #fff;
+  padding-bottom: 30px;
+  text-decoration: none;
+}
+
+.more a:hover {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 12pt;
+  color: #ff00ff;
+  padding-bottom: 30px;
+  text-decoration: none;
+}
+
+.more-up {
+  padding-top: 30px;
+}
+
+.more-up a {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 12pt;
+  color: #fff;
+  text-decoration: none;
+}
+
+.more-up a:hover {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 12pt;
+  color: #ff00ff;
+  text-decoration: none;
+}
+
+.fm {
+  height: 30px;
+  color: #fff;
+  padding-bottom: 40px;
+}
+
+.button {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 18pt;
+  width: 200px;
+  height: 50px;
+  border-radius: 0;
+  border-style: none;
+  background-color: #000;
+  color: #fff;
+}
+
+.button0, .button1, .button2, .button3, .button4, .button5,
+.button6, .button7, .button8, .button9, .button10  {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 12pt;
+  width: auto;
+  height: 30px;
+  border-radius: 0;
+  border-style: none;
+  margin-bottom: 15px;
+  background-color: Transparent;
+  color: #fff;
+}
+
+.button0:hover, .button1:hover, .button2:hover, .button3:hover, .button4:hover,
+.button5:hover, .button6:hover, .button7:hover, .button8:hover, .button9:hover,
+.button10:hover  {
+  color: #ff00ff;
+}
+
+.button:hover {
+  background-color: #a1a1a1;
+  color: #000;
+}
+
+.background {
+  position: fixed;
+}
+
+#background {
+  height: 200%;
+  width: 100%;
+}
+
+.past-iterations-header {
+  font-family: Raleway;
+  font-weight: bold;
+  font-size: 30pt;
+  color: #fff;
+  top: 15%;
+  width: 100%;
+  text-align: center;
+  z-index: 99;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.gen {
+  font-family: Raleway;
+  font-weight: normal;
+  font-size: 14pt;
+  padding-bottom: 10px;
+}
+
+.gen a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.gen a:hover{
+  color: #ff00ff;
+}
