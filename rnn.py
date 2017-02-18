@@ -2,7 +2,7 @@ import os, sys
 import argparse
 import time
 import itertools
-import cPickle
+import pickle as cPickle
 import logging
 import random
 import string
@@ -37,7 +37,7 @@ class DefaultConfig(object):
     time_batch_len = 128
     learning_rate = 5e-3
     learning_rate_decay = 0.9
-    num_epochs = 250
+    num_epochs = 10
 
     # metadata
     dataset = 'softmax'
@@ -46,7 +46,7 @@ class DefaultConfig(object):
     def __repr__(self):
         return """Num Layers: {}, Hidden Size: {}, Melody Coeff: {}, Dropout Prob: {}, Input Dropout Prob: {}, Cell Type: {}, Time Batch Len: {}, Learning Rate: {}, Decay: {}""".format(self.num_layers, self.hidden_size, self.melody_coeff, self.dropout_prob, self.input_dropout_prob, self.cell_type, self.time_batch_len, self.learning_rate, self.learning_rate_decay)
     
-def train_model():
+if __name__ == '__main__':
     np.random.seed()      
 
     parser = argparse.ArgumentParser(description='Script to train and save a model.')
@@ -62,12 +62,12 @@ def train_model():
         resolution = 480
         time_step = 120
         model_class = NottinghamModel
-        with open(nottingham_util.PICKLE_LOC, 'r') as f:
+        with open(nottingham_util.PICKLE_LOC, 'rb') as f:
             pickle = cPickle.load(f)
             chord_to_idx = pickle['chord_to_idx']
 
         input_dim = pickle["train"][0].shape[1]
-        print 'Finished loading data, input dim: {}'.format(input_dim)
+        print('Finished loading data, input dim: {}'.format(input_dim))
     else:
         raise Exception("Other datasets not yet implemented")
 
@@ -93,14 +93,14 @@ def train_model():
         "melody_coeff": [0.5],
         "num_layers": [2],
         "hidden_size": [200],
-        "num_epochs": [250],
+        "num_epochs": [10],
         "learning_rate": [5e-3],
         "learning_rate_decay": [0.9],
         "time_batch_len": [128],
     }
 
     # Generate product of hyperparams
-    runs = list(list(itertools.izip(grid, x)) for x in itertools.product(*grid.itervalues()))
+    runs = list(list(itertools.zip_longest(grid, x)) for x in itertools.product(*grid.values()))
     logger.info("{} runs detected".format(len(runs)))
 
     for combination in runs:
@@ -119,7 +119,7 @@ def train_model():
 
         logger.info(config)
         config_file_path = os.path.join(run_folder, get_config_name(config) + '.config')
-        with open(config_file_path, 'w') as f: 
+        with open(config_file_path, 'wb') as f:
             cPickle.dump(config, f)
 
         with tf.Graph().as_default(), tf.Session() as session:

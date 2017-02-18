@@ -15,8 +15,8 @@ class Sampler(object):
     def visualize_probs(self, probs):
         if not self.verbose:
             return
-        print 'Highest four probs: '
-        pprint(sorted(list(enumerate(probs)), key=lambda x: x[1], 
+        print('Highest four probs: ')
+        pprint(sorted(list(enumerate(probs)), key=lambda x: x[1],
                reverse=True)[:4])
 
     def sample_notes_prob(self, probs, max_notes=-1):

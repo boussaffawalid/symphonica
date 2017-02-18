@@ -26,8 +26,8 @@ def ingest_notes(track, verbose=False):
             if len(notes[msg.get_pitch()]) > 0 and \
                len(notes[msg.get_pitch()][-1]) != 2:
                 if verbose:
-                    print "Warning: double NoteOn encountered, deleting the first"
-                    print msg
+                    print("Warning: double NoteOn encountered, deleting the first")
+                    print(msg)
             else:
                 notes[msg.get_pitch()] += [[current_tick]]
         elif isinstance(msg, midi.NoteOffEvent) or \
@@ -35,8 +35,8 @@ def ingest_notes(track, verbose=False):
             # sanity check: no notes end without being started
             if len(notes[msg.get_pitch()][-1]) != 1:
                 if verbose:
-                    print "Warning: skipping NoteOff Event with no corresponding NoteOn"
-                    print msg
+                    print("Warning: skipping NoteOff Event with no corresponding NoteOn")
+                    print(msg)
             else: 
                 notes[msg.get_pitch()][-1] += [current_tick]
 
@@ -48,12 +48,12 @@ def round_notes(notes, track_ticks, time_step, R=None, O=None):
     if not O:
         O = 0
 
-    sequence = np.zeros((track_ticks/time_step, R))
-    disputed = { t: defaultdict(int) for t in range(track_ticks/time_step) }
+    sequence = np.zeros((track_ticks//time_step, R))
+    disputed = { t: defaultdict(int) for t in range(track_ticks//time_step) }
     for note in notes:
         for (start, end) in notes[note]:
-            start_t = round_tick(start, time_step) / time_step
-            end_t = round_tick(end, time_step) / time_step
+            start_t = round_tick(start, time_step) // time_step
+            end_t = round_tick(end, time_step) // time_step
             # normal case where note is long enough
             if end - start > time_step/2 and start_t != end_t:
                 sequence[start_t:end_t, note - O] = 1
@@ -92,9 +92,9 @@ def parse_midi_to_sequence(input_filename, time_step, verbose=False):
         raise Exception("No pattern found in midi file")
 
     if verbose:
-        print "Track resolution: {}".format(pattern.resolution)
-        print "Number of tracks: {}".format(len(pattern))
-        print "Time step: {}".format(time_step)
+        print("Track resolution: {}".format(pattern.resolution))
+        print("Number of tracks: {}".format(len(pattern)))
+        print("Time step: {}".format(time_step))
 
     # Track ingestion stage
     notes = { n: [] for n in range(RANGE) }
@@ -114,8 +114,8 @@ def parse_midi_to_sequence(input_filename, time_step, verbose=False):
                 if len(notes[msg.get_pitch()]) > 0 and \
                    len(notes[msg.get_pitch()][-1]) != 2:
                     if verbose:
-                        print "Warning: double NoteOn encountered, deleting the first"
-                        print msg
+                        print("Warning: double NoteOn encountered, deleting the first")
+                        print(msg)
                 else:
                     notes[msg.get_pitch()] += [[current_tick]]
             elif isinstance(msg, midi.NoteOffEvent) or \
@@ -123,8 +123,8 @@ def parse_midi_to_sequence(input_filename, time_step, verbose=False):
                 # sanity check: no notes end without being started
                 if len(notes[msg.get_pitch()][-1]) != 1:
                     if verbose:
-                        print "Warning: skipping NoteOff Event with no corresponding NoteOn"
-                        print msg
+                        print("Warning: skipping NoteOff Event with no corresponding NoteOn")
+                        print(msg)
                 else: 
                     notes[msg.get_pitch()][-1] += [current_tick]
 
@@ -132,7 +132,7 @@ def parse_midi_to_sequence(input_filename, time_step, verbose=False):
 
     track_ticks = round_tick(track_ticks, time_step)
     if verbose:
-        print "Track ticks (rounded): {} ({} time steps)".format(track_ticks, track_ticks/time_step)
+        print("Track ticks (rounded): {} ({} time steps)".format(track_ticks, track_ticks / time_step))
 
     sequence = round_notes(notes, track_ticks, time_step)
 
@@ -155,9 +155,9 @@ class MidiWriter(object):
     def dump_sequence_to_midi(self, sequence, output_filename, time_step, 
                               resolution, metronome=24):
         if self.verbose:
-            print "Dumping sequence to MIDI file: {}".format(output_filename)
-            print "Resolution: {}".format(resolution)
-            print "Time Step: {}".format(time_step)
+            print("Dumping sequence to MIDI file: {}".format(output_filename))
+            print("Resolution: {}".format(resolution))
+            print("Time Step: {}".format(time_step))
 
         pattern = midi.Pattern(resolution=resolution)
         self.track = midi.Track()
@@ -177,7 +177,7 @@ class MidiWriter(object):
 
         time_steps = sequence.shape[0]
         if self.verbose:
-            print "Total number of time steps: {}".format(time_steps)
+            print("Total number of time steps: {}".format(time_steps))
 
         tick = time_step
         self.notes_on = { n: False for n in range(self.note_range) }

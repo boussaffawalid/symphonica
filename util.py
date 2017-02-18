@@ -1,6 +1,6 @@
 import os
 import math
-import cPickle
+
 from collections import defaultdict
 from random import shuffle
 
@@ -50,9 +50,9 @@ def batch_data(sequences, time_batch_len=128, max_time_batches=10,
 
     if verbose:
         avg_seq_len = sum(sequence_lens) / len(sequences)
-        print "Average Sequence Length: {}".format(avg_seq_len)
-        print "Max Sequence Length: {}".format(time_batch_len)
-        print "Number of sequences: {}".format(len(sequences))
+        print("Average Sequence Length: {}".format(avg_seq_len))
+        print("Max Sequence Length: {}".format(time_batch_len))
+        print("Number of sequences: {}".format(len(sequences)))
 
     batches = defaultdict(list)
     for sequence in sequences:
@@ -65,8 +65,8 @@ def batch_data(sequences, time_batch_len=128, max_time_batches=10,
         batches[num_time_steps].append(sequence)
 
     if verbose:
-        print "Batch distribution:"
-        print [(k, len(v)) for (k, v) in batches.iteritems()]
+        print("Batch distribution:")
+        print([(k, len(v)) for (k, v) in batches])
 
     def arrange_batch(sequences, num_time_steps):
         sequences = [s[:(num_time_steps*time_batch_len)+1, :] for s in sequences]
@@ -104,7 +104,7 @@ def batch_data(sequences, time_batch_len=128, max_time_batches=10,
 
         return (tb_data, tb_targets)
 
-    return [ arrange_batch(b, n) for n, b in batches.iteritems() ]
+    return [ arrange_batch(b, n) for n, b in batches.items() ]
         
 def load_data(data_dir, time_step, time_batch_len, max_time_batches, nottingham=None):
     """
@@ -143,7 +143,7 @@ def load_data(data_dir, time_step, time_batch_len, max_time_batches, nottingham=
             files = [s[0] for s in sf]
             metadata = [{
                 'path': f,
-                'name': f.split("/")[-1].split(".")[0]
+                'name': f.split("/")[-1].split('.')[0]
             } for f in files]
 
         dataset_data = batch_data(sequences, time_batch_len, max_time_batches, softmax = True if nottingham else False)
@@ -202,7 +202,7 @@ def run_epoch(session, model, batches, training=False, testing=False):
                 tbd[:, np.arange(batches), :] = tb_data[:, permutations, :]
                 tbt = np.zeros_like(tb_targets)
                 tbt[:, np.arange(batches), :] = tb_targets[:, permutations, :]
-                state[np.arange(batches)] = state[permutations]
+                #state[np.arange(batches)] = state[permutations]
 
             feed_dict = {
                 model.initial_state: state,
@@ -251,8 +251,8 @@ def accuracy(batch_probs, data, num_samples=20):
                             false_negatives += (num_samples - num_occurrences)
                             true_positives += num_occurrences
                 
-    accuracy = (float(true_positives) / float(true_positives + false_positives + false_negatives)) 
+    accuracy = (float(true_positives) / float(true_positives + false_positives + false_negatives))
 
-    print "Precision: {}".format(float(true_positives) / (float(true_positives + false_positives)))
-    print "Recall: {}".format(float(true_positives) / (float(true_positives + false_negatives)))
-    print "Accuracy: {}".format(accuracy)
+    print("Precision: {}".format(float(true_positives) / (float(true_positives + false_positives))))
+    print("Recall: {}".format(float(true_positives) / (float(true_positives + false_negatives))))
+    print("Accuracy: {}".format(accuracy))

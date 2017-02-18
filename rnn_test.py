@@ -1,6 +1,6 @@
 import os, sys
 import argparse
-import cPickle
+import pickle as cPickle
 
 import numpy as np
 import tensorflow as tf    
@@ -35,14 +35,14 @@ if __name__ == '__main__':
                 max_time_batches = -1, softmax = True)
             r = nottingham_util.NOTTINGHAM_MELODY_RANGE
             if args.choice == 'melody':
-                print "Using only melody"
+                print("Using only melody")
                 new_data = []
                 for batch_data, batch_targets in test_data:
                     new_data.append(([tb[:, :, :r] for tb in batch_data],
                                      [tb[:, :, 0] for tb in batch_targets]))
                 test_data = new_data
             else:
-                print "Using only harmony"
+                print("Using only harmony")
                 new_data = []
                 for batch_data, batch_targets in test_data:
                     new_data.append(([tb[:, :, r:] for tb in batch_data],
@@ -55,8 +55,8 @@ if __name__ == '__main__':
                 max_time_batches = -1, softmax = True)
     else:
         raise Exception("Other datasets not yet implemented")
-        
-    print config
+
+    print(config)
 
     with tf.Graph().as_default(), tf.Session() as session:
         with tf.variable_scope("model", reuse=None):
@@ -69,7 +69,7 @@ if __name__ == '__main__':
         
         test_loss, test_probs = util.run_epoch(session, test_model, test_data, 
             training=False, testing=True)
-        print 'Testing Loss: {}'.format(test_loss)
+        print('Testing Loss: {}'.format(test_loss))
 
         if config.dataset == 'softmax':
             if args.seperate:

@@ -2,7 +2,7 @@ import os, sys
 import argparse
 import time
 import itertools
-import cPickle
+import pickle as cPickle
 import logging
 import random
 import string
@@ -41,7 +41,7 @@ if __name__ == '__main__':
             chord_to_idx = pickle['chord_to_idx']
 
         input_dim = pickle["train"][0].shape[1]
-        print 'Finished loading data, input dim: {}'.format(input_dim)
+        print('Finished loading data, input dim: {}'.format(input_dim))
     else:
         raise Exception("Other datasets not yet implemented")
 
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         # cut away unnecessary parts
         r = nottingham_util.NOTTINGHAM_MELODY_RANGE
         if args.choice == 'melody':
-            print "Using only melody"
+            print("Using only melody")
             for d in ['train', 'test', 'valid']:
                 new_data = []
                 for batch_data, batch_targets in data[d]["data"]:
@@ -99,7 +99,7 @@ if __name__ == '__main__':
                                      [tb[:, :, 0] for tb in batch_targets]))
                 data[d]["data"] = new_data
         else:
-            print "Using only harmony"
+            print("Using only harmony")
             for d in ['train', 'test', 'valid']:
                 new_data = []
                 for batch_data, batch_targets in data[d]["data"]:
@@ -109,7 +109,7 @@ if __name__ == '__main__':
 
         input_dim = data["input_dim"] = data["train"]["data"][0][0][0].shape[2]
         config.input_dim = input_dim
-        print "New input dim: {}".format(input_dim)
+        print("New input dim: {}".format(input_dim))
 
         logger.info(config)
         config_file_path = os.path.join(run_folder, get_config_name(config) + '.config')
