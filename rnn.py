@@ -37,7 +37,7 @@ class DefaultConfig(object):
     time_batch_len = 128
     learning_rate = 5e-3
     learning_rate_decay = 0.9
-    num_epochs = 10
+    #num_epochs = 250
 
     # metadata
     dataset = 'softmax'
@@ -55,6 +55,7 @@ if __name__ == '__main__':
                         choices = ['softmax'])
     parser.add_argument('--model_dir', type=str, default='models')
     parser.add_argument('--run_name', type=str, default=time.strftime("%m%d_%H%M"))
+    parser.add_argument('--num_epochs', type=int, default=250 )
 
     args = parser.parse_args()
 
@@ -93,7 +94,7 @@ if __name__ == '__main__':
         "melody_coeff": [0.5],
         "num_layers": [2],
         "hidden_size": [200],
-        "num_epochs": [10],
+        "num_epochs": [args.num_epochs],
         "learning_rate": [5e-3],
         "learning_rate_decay": [0.9],
         "time_batch_len": [128],
@@ -128,8 +129,8 @@ if __name__ == '__main__':
             with tf.variable_scope("model", reuse=True):
                 valid_model = model_class(config, training=False)
 
-            saver = tf.train.Saver(tf.all_variables(), max_to_keep=40)
-            tf.initialize_all_variables().run()
+            saver = tf.train.Saver(tf.global_variables(), max_to_keep=40)
+            tf.global_variables_initializer().run()
 
             # training
             early_stop_best_loss = None
@@ -137,7 +138,7 @@ if __name__ == '__main__':
             saved_flag = False
             train_losses, valid_losses = [], []
             start_time = time.time()
-            for i in range(config.num_epochs):
+            for i in range(args.num_epochs):
                 loss = util.run_epoch(session, train_model, 
                     data["train"]["data"], training=True, testing=False)
                 train_losses.append((i, loss))

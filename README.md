@@ -19,3 +19,4 @@ Basic Usage
 4. Run `python rnn.py --run_name YOUR_RUN_NAME_HERE` to start training the model. Use the grid object in `rnn.py` to edit hyperparameter
    configurations.
 5. Run `python rnn_sample.py --config_file generated_config_by_you`. best.midi will be generated in your current directory
+

@@ -21,13 +21,13 @@ if __name__ == '__main__':
                         choices = ['melody', 'harmony'])
     args = parser.parse_args()
 
-    with open(args.config_file, 'r') as f: 
+    with open(args.config_file, 'rb') as f: 
         config = cPickle.load(f)
 
     if config.dataset == 'softmax':
         config.time_batch_len = 1
         config.max_time_batches = -1
-        with open(nottingham_util.PICKLE_LOC, 'r') as f:
+        with open(nottingham_util.PICKLE_LOC, 'rb') as f:
             pickle = cPickle.load(f)
         if args.seperate:
             model_class = NottinghamSeparate
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         with tf.variable_scope("model", reuse=None):
             test_model = model_class(config, training=False)
 
-        saver = tf.train.Saver(tf.all_variables())
+        saver = tf.train.Saver(tf.global_variables())
         model_path = os.path.join(os.path.dirname(args.config_file), 
             config.model_name)
         saver.restore(session, model_path)
