@@ -8,7 +8,7 @@ import numpy as np
 import tensorflow as tf
 
 from src import midi_util
-from src import nottingham_util
+import nottingham_util
 
 def parse_midi_directory(input_dir, time_step):
     """

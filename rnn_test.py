@@ -3,15 +3,15 @@ import argparse
 import pickle as cPickle
 
 import numpy as np
-import tensorflow as tf    
+import tensorflow as tf
 
-import util
+from src import util
 import nottingham_util
-from model import Model, NottinghamModel, NottinghamSeparate
-from rnn import DefaultConfig
+from src.model import Model, NottinghamModel, NottinghamSeparate
+#from rnn import DefaultConfig
 
 if __name__ == '__main__':
-    np.random.seed()      
+    np.random.seed()
 
     parser = argparse.ArgumentParser(description='Script to test a models performance against the test set')
     parser.add_argument('--config_file', type=str, required=True)
@@ -21,7 +21,7 @@ if __name__ == '__main__':
                         choices = ['melody', 'harmony'])
     args = parser.parse_args()
 
-    with open(args.config_file, 'rb') as f: 
+    with open(args.config_file, 'rb') as f:
         config = cPickle.load(f)
 
     if config.dataset == 'softmax':
@@ -31,7 +31,7 @@ if __name__ == '__main__':
             pickle = cPickle.load(f)
         if args.seperate:
             model_class = NottinghamSeparate
-            test_data = util.batch_data(pickle['test'], time_batch_len = 1, 
+            test_data = util.batch_data(pickle['test'], time_batch_len = 1,
                 max_time_batches = -1, softmax = True)
             r = nottingham_util.NOTTINGHAM_MELODY_RANGE
             if args.choice == 'melody':
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         else:
             model_class = NottinghamModel
             # use time batch len of 1 so that every target is covered
-            test_data = util.batch_data(pickle['test'], time_batch_len = 1, 
+            test_data = util.batch_data(pickle['test'], time_batch_len = 1,
                 max_time_batches = -1, softmax = True)
     else:
         raise Exception("Other datasets not yet implemented")
@@ -63,11 +63,11 @@ if __name__ == '__main__':
             test_model = model_class(config, training=False)
 
         saver = tf.train.Saver(tf.global_variables())
-        model_path = os.path.join(os.path.dirname(args.config_file), 
+        model_path = os.path.join(os.path.dirname(args.config_file),
             config.model_name)
         saver.restore(session, model_path)
-        
-        test_loss, test_probs = util.run_epoch(session, test_model, test_data, 
+
+        test_loss, test_probs = util.run_epoch(session, test_model, test_data,
             training=False, testing=True)
         print('Testing Loss: {}'.format(test_loss))
 

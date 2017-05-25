@@ -3,7 +3,7 @@ import logging
 import numpy as np
 import tensorflow as tf
 
-from src import nottingham_util
+import nottingham_util
 
 
 class Model(object):

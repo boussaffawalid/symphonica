@@ -7,10 +7,10 @@ import pickle as cPickle
 import numpy as np
 import tensorflow as tf
 
-import util
+from src import util
 import nottingham_util
-from model import Model, NottinghamModel
-from rnn import DefaultConfig
+from src.model import Model, NottinghamModel
+#from src.rnn import DefaultConfig
 
 if __name__ == '__main__':
     np.random.seed()
