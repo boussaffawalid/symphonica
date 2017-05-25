@@ -18,7 +18,7 @@ def ingest_notes(track, verbose=False):
         if isinstance(msg, midi.EndOfTrackEvent):
             continue
 
-        if msg.tick > 0: 
+        if msg.tick > 0:
             current_tick += msg.tick
 
         # velocity of 0 is equivalent to note off, so treat as such
@@ -37,7 +37,7 @@ def ingest_notes(track, verbose=False):
                 if verbose:
                     print("Warning: skipping NoteOff Event with no corresponding NoteOn")
                     print(msg)
-            else: 
+            else:
                 notes[msg.get_pitch()][-1] += [current_tick]
 
     return notes, current_tick
@@ -57,12 +57,12 @@ def round_notes(notes, track_ticks, time_step, R=None, O=None):
             # normal case where note is long enough
             if end - start > time_step/2 and start_t != end_t:
                 sequence[start_t:end_t, note - O] = 1
-            # cases where note is within bounds of time step 
+            # cases where note is within bounds of time step
             elif start > start_t * time_step:
                 disputed[start_t][note] += (end - start)
             elif end <= end_t * time_step:
                 disputed[end_t-1][note] += (end - start)
-            # case where a note is on the border 
+            # case where a note is on the border
             else:
                 before_border = start_t * time_step - start
                 if before_border > 0:
@@ -106,7 +106,7 @@ def parse_midi_to_sequence(input_filename, time_step, verbose=False):
             if isinstance(msg, midi.EndOfTrackEvent):
                 continue
 
-            if msg.tick > 0: 
+            if msg.tick > 0:
                 current_tick += msg.tick
 
             # velocity of 0 is equivalent to note off, so treat as such
@@ -125,7 +125,7 @@ def parse_midi_to_sequence(input_filename, time_step, verbose=False):
                     if verbose:
                         print("Warning: skipping NoteOff Event with no corresponding NoteOn")
                         print(msg)
-                else: 
+                else:
                     notes[msg.get_pitch()][-1] += [current_tick]
 
         track_ticks = max(current_tick, track_ticks)
@@ -152,7 +152,7 @@ class MidiWriter(object):
         self.track.append(midi.NoteOnEvent(tick=tick, pitch=val, velocity=70))
         return 0
 
-    def dump_sequence_to_midi(self, sequence, output_filename, time_step, 
+    def dump_sequence_to_midi(self, sequence, output_filename, time_step,
                               resolution, metronome=24):
         if self.verbose:
             print("Dumping sequence to MIDI file: {}".format(output_filename))

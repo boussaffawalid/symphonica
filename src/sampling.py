@@ -1,7 +1,7 @@
 import numpy as np
 from pprint import pprint
 
-import midi_util
+from src import midi_util
 
 
 class Sampler(object):

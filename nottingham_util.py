@@ -3,11 +3,11 @@ import os
 import midi
 import pickle as cPickle
 from pprint import pprint
-
-import midi_util
 import mingus
 import mingus.core.chords
-import sampling
+
+from src import midi_util
+from src import sampling
 
 PICKLE_LOC = 'data/nottingham.pickle'
 NOTTINGHAM_MELODY_MAX = 88
@@ -60,7 +60,7 @@ def prepare_nottingham_pickle(time_step, chord_cutoff=64, filename=PICKLE_LOC, v
     chords = {}
     max_seq = 0
     seq_lens = []
-    
+
     for d in ["train", "test", "valid"]:
         print("Parsing {}...".format(d))
         parsed = parse_nottingham_directory("data/Nottingham/{}".format(d), time_step, verbose=True)
@@ -71,7 +71,7 @@ def prepare_nottingham_pickle(time_step, chord_cutoff=64, filename=PICKLE_LOC, v
         lens = [len(s[1]) for s in seqs]
         seq_lens += lens
         max_seq = max(max_seq, max(lens))
-        
+
         for _, harmony in seqs:
             for h in harmony:
                 if h not in chords:
@@ -134,12 +134,12 @@ def parse_nottingham_directory(input_dir, time_step, verbose=False):
     """
     input_dir: a directory containing MIDI files
 
-    returns a list of [T x D] matrices, where each matrix represents a 
+    returns a list of [T x D] matrices, where each matrix represents a
     a sequence with T time steps over D dimensions
     """
 
     files = [ os.path.join(input_dir, f) for f in os.listdir(input_dir)
-              if os.path.isfile(os.path.join(input_dir, f)) ] 
+              if os.path.isfile(os.path.join(input_dir, f)) ]
     sequences = [ \
         parse_nottingham_to_sequence(f, time_step=time_step, verbose=verbose) \
         for f in files ]
@@ -200,7 +200,7 @@ def parse_nottingham_to_sequence(input_filename, time_step, verbose=False):
     if verbose:
         print("Track ticks (rounded): {} ({} time steps)".format(track_ticks, track_ticks / time_step))
 
-    melody_sequence = midi_util.round_notes(melody_notes, track_ticks, time_step, 
+    melody_sequence = midi_util.round_notes(melody_notes, track_ticks, time_step,
                                   R=NOTTINGHAM_MELODY_RANGE, O=NOTTINGHAM_MELODY_MIN)
 
     for i in range(melody_sequence.shape[0]):
@@ -289,7 +289,7 @@ class NottinghamMidiWriter(midi_util.MidiWriter):
 class NottinghamSampler(object):
 
     def __init__(self, chord_to_idx, method = 'sample', harmony_repeat_max = 16, melody_repeat_max = 16, verbose=False):
-        self.verbose = verbose 
+        self.verbose = verbose
         self.idx_to_chord = { i: c for c, i in chord_to_idx.items() }
         self.method = method
 
@@ -299,15 +299,15 @@ class NottinghamSampler(object):
 
         self.mlast = 0
         self.mcount = 0
-        self.mrepeat = melody_repeat_max 
+        self.mrepeat = melody_repeat_max
 
     def visualize_probs(self, probs):
         if not self.verbose:
             return
 
-        melodies = sorted(list(enumerate(probs[:NOTTINGHAM_MELODY_RANGE])), 
+        melodies = sorted(list(enumerate(probs[:NOTTINGHAM_MELODY_RANGE])),
                      key=lambda x: x[1], reverse=True)[:4]
-        harmonies = sorted(list(enumerate(probs[NOTTINGHAM_MELODY_RANGE:])), 
+        harmonies = sorted(list(enumerate(probs[NOTTINGHAM_MELODY_RANGE:])),
                      key=lambda x: x[1], reverse=True)[:4]
         harmonies = [(self.idx_to_chord[i], j) for i, j in harmonies]
         print('Top Melody Notes: ')
@@ -376,7 +376,7 @@ class NottinghamSampler(object):
 def accuracy(batch_probs, data, num_samples=1):
     """
     Batch Probs: { num_time_steps: [ time_step_1, time_step_2, ... ] }
-    Data: [ 
+    Data: [
         [ [ data ], [ target ] ], # batch with one time step
         [ [ data1, data2 ], [ target1, target2 ] ], # batch with two time steps
         ...
@@ -496,7 +496,7 @@ def i_vi_iv_v(chord_to_idx, repeats, input_dim):
 
     full_seq = [i] * 16 + [vi] * 16 + [iv] * 16 + [v] * 16
     full_seq = full_seq * repeats
-    
+
     return full_seq
 
 if __name__ == '__main__':

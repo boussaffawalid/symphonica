@@ -3,11 +3,11 @@ import logging
 import numpy as np
 import tensorflow as tf
 
-import nottingham_util
+from src import nottingham_util
 
 
 class Model(object):
-    """ 
+    """
     Cross-Entropy Naive Formulation
     A single time step may have multiple notes active, so a sigmoid cross entropy loss
     is used to match targets.
@@ -103,8 +103,8 @@ class Model(object):
 
 
 class NottinghamModel(Model):
-    """ 
-    Dual softmax formulation 
+    """
+    Dual softmax formulation
 
     A single time step should be a concatenation of two one-hot-encoding binary vectors.
     Loss function is a sum of two softmax loss functions over [:r] and [r:] respectively,
@@ -147,9 +147,9 @@ class NottinghamModel(Model):
 
 
 class NottinghamSeparate(Model):
-    """ 
-    Single softmax formulation 
-    
+    """
+    Single softmax formulation
+
     Regular single classification formulation, used to train baseline models
     where the melody and harmony are trained separately
     """
